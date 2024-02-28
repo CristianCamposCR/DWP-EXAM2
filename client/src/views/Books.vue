@@ -8,11 +8,11 @@
     <h3 class="text-center mt-3">Libros</h3>
 
     <b-container fluid>
-     <div  v-show="showElement">
+      <div v-show="showElement">
         <b-row class="d-flex justify-content-center">
-        <b-col cols="12" sm="12" md="8">
-          <div>
-            <b-carousel
+          <b-col cols="12" sm="12" md="8">
+            <div>
+              <b-carousel
                 id="carousel-1"
                 v-model="slide"
                 :interval="4000"
@@ -46,69 +46,66 @@
                   caption="Blank Image"
                   img-blank
                   img-alt="Blank image"
-              >
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse eros felis, tincidunt a tincidunt eget, convallis
-                  vel est. Ut pellentesque ut lacus vel interdum.
-                </p>
-              </b-carousel-slide>
-            </b-carousel>
-          </div>
-        </b-col>
-      </b-row>
-     </div>
+                >
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Suspendisse eros felis, tincidunt a tincidunt eget,
+                    convallis vel est. Ut pellentesque ut lacus vel interdum.
+                  </p>
+                </b-carousel-slide>
+              </b-carousel>
+            </div>
+          </b-col>
+        </b-row>
+      </div>
       <b-row class="mt-5">
         <b-col cols="12" sm="12" md="10">
           <b-row class="mt-3 text-center">
             <b-col cols="12" sm="12" md="4">
               <b-button @click="getBooksOrderByAuthorDesc"
-              >Ordenar por autor
-              </b-button
-              >
+                >Ordenar por autor
+              </b-button>
             </b-col>
             <b-col cols="12" sm="12" md="4">
               <b-button @click="getBooksOrderByDateDesc"
-              >Ordenar por fecha
-              </b-button
-              >
+                >Ordenar por fecha
+              </b-button>
             </b-col>
             <b-col cols="12" sm="12" md="4">
               <b-button @click="getBooksHasCover"
-              >Mostrar si tiene imagen
-              </b-button
-              >
+                >Mostrar si tiene imagen
+              </b-button>
             </b-col>
           </b-row>
 
 
 
           <b-row
-              cols="12"
-              class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
-              v-if="books.length !== 0"
+            cols="12"
+            class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
+            v-if="books.length != 0"
           >
             <TransitionGroup
-                name="backDown"
-                tag="div"
-                class="d-flex flex-row flex-wrap"
+              name="backDown"
+              tag="div"
+              class="d-flex flex-row flex-wrap"
             >
               <b-col
-                  v-for="book in books"
-                  :key="book.id"
-                  class="my-2"
-                  cols="12"
-                  sm="12"
-                  md="4"
+                v-for="book in books"
+                :key="book.id"
+                class="my-2"
+                cols="12"
+                sm="12"
+                md="4"
               >
                 <b-card
-                    :title="book.name"
-                    :img-src="book.cover"
-                    img-alt="Image"
-                    img-top
-                    tag="article"
-                    style="max-width: 20rem"
-                    class="mb-2"
+                  :title="book.name"
+                  :img-src="book.cover"
+                  img-alt="Image"
+                  img-top
+                  tag="article"
+                  style="max-width: 20rem"
+                  class="mb-2"
                   @dragover.prevent
                   @dragenter.prevent
                   @dragstart="startDrag($event, book)"
@@ -142,17 +139,17 @@
         <b-col cols="12" sm="12" md="2">
           <b-row class="text-center">
             <b-col cols="12" sm="12" class="mb-2">
-              <b-button v-b-modal.save
-              >
-                <b-icon icon="plus" aria-hidden="true"></b-icon
-                >
+              <b-button v-b-modal.save>
+                <b-icon icon="plus" aria-hidden="true"></b-icon>
               </b-button>
             </b-col>
             <b-col cols="12" sm="12" class="mb-2">
               <b-button
+                @drop="onDropUpdate($event)"
+                @dragover.prevent
+                @dragenter.prevent
               >
-                <b-icon icon="pencil" aria-hidden="true"></b-icon
-                >
+                <b-icon icon="pencil" aria-hidden="true"></b-icon>
               </b-button>
             </b-col>
             <b-col cols="12" sm="12" class="mb-2">
@@ -161,8 +158,7 @@
                 @dragover.prevent
                 @dragenter.prevent
               >
-                <b-icon icon="trash-fill" aria-hidden="true"></b-icon
-                >
+                <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
               </b-button>
             </b-col>
           </b-row>
@@ -170,18 +166,18 @@
       </b-row>
     </b-container>
 
-    <!-- modal -->
+    <!-- modal save-->
     <b-modal id="save" title="Registrar libro" size="lg" hide-footer>
       <b-row>
         <b-col cols="12" sm="12" md="6">
           <b-form>
             <b-form-group>
               <b-form-input
-                  id="input-1"
-                  type="text"
-                  placeholder="Ingresa el nombre del libro"
-                  v-model="book.name"
-                  required
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el nombre del libro"
+                v-model="book.name"
+                required
               />
             </b-form-group>
           </b-form>
@@ -190,11 +186,11 @@
           <b-form>
             <b-form-group>
               <b-form-input
-                  id="input-1"
-                  type="text"
-                  placeholder="Ingresa el nombre del autor"
-                  v-model="book.author"
-                  required
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el nombre del autor"
+                v-model="book.author"
+                required
               />
             </b-form-group>
           </b-form>
@@ -205,11 +201,11 @@
           <b-form>
             <b-form-group>
               <b-form-input
-                  id="input-1"
-                  type="text"
-                  placeholder="Ingresa la fecha de publicación"
-                  v-model="book.atPublish"
-                  required
+                id="input-1"
+                type="text"
+                placeholder="Ingresa la fecha de publicación (aaaa-mm-dd)"
+                v-model="book.atPublish"
+                required
               />
             </b-form-group>
           </b-form>
@@ -217,28 +213,27 @@
         <b-col cols="12" sm="12" md="6">
           <b-form>
             <b-form-group>
-
-
-              <b-form-file id="file-small" @change="handleFileChange" browse-text="Buscar" placeholder="Selecciona una imagen"
+              <b-form-file
+                id="file-small"
+                @change="handleFileChange"
+                browse-text="Buscar"
+                placeholder="Selecciona una imagen"
               ></b-form-file>
-
-
             </b-form-group>
           </b-form>
         </b-col>
       </b-row>
 
-
       <b-row>
-        <b-col cols="12" >
+        <b-col cols="12">
           <b-form>
             <b-form-group>
               <b-img
-                  v-if="previewImage"
-                  :src="previewImage"
-                  fluid
-                  thumbnail
-                  alt="Image"
+                v-if="previewImage"
+                :src="previewImage"
+                fluid
+                thumbnail
+                alt="Image"
               ></b-img>
             </b-form-group>
           </b-form>
@@ -247,6 +242,85 @@
 
       <div class="col-12 mt-3 px-0 text-right">
         <b-button variant="success" @click="saveBook"> Guardar</b-button>
+      </div>
+    </b-modal>
+
+    <!-- modal update -->
+    <b-modal id="update" title="Actualizar libro" size="lg" hide-footer>
+      <b-row>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el nombre del libro"
+                v-model="selectedBook.name"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el nombre del autor"
+                v-model="selectedBook.author"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa la fecha de publicación (aaaa-mm-dd)"
+                v-model="selectedBook.atPublish"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-file
+                id="file-small"
+                @change="convertFileToBase64Update"
+                browse-text="Buscar"
+                placeholder="Selecciona una imagen"
+              ></b-form-file>
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col cols="12">
+          <b-form>
+            <b-form-group>
+              <b-img
+                v-if="selectedBook.cover"
+                :src="selectedBook.cover"
+                fluid
+                thumbnail
+                alt="Image"
+              ></b-img>
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+
+      <div class="col-12 mt-3 px-0 text-right">
+        <b-button variant="success" @click="update"> Actualizar</b-button>
       </div>
     </b-modal>
   </div>
@@ -276,6 +350,12 @@ export default Vue.extend({
         atPublish: "",
         cover: null,
       },
+      selectedBook: {
+        author: "",
+        name: "",
+        atPublish: "",
+        cover: null,
+      },
       showElement: true,
     };
   },
@@ -284,10 +364,34 @@ export default Vue.extend({
       evt.dataTransfer.dropEffect = "move";
       evt.dataTransfer.effectAllowed = "move";
       evt.dataTransfer.setData("book", book.id);
+      this.selectedBook = { ...book };
     },
     onDrop(evt) {
       const book = evt.dataTransfer.getData("book");
       this.changeStatus(book);
+    },
+    onDropUpdate(evt) {
+      this.$bvModal.show("update");
+    },
+    async update() {
+      try {
+        const response = await Axios.put(
+          "http://localhost:8080/api/books/update/",
+          this.selectedBook
+        );
+        if (response.status === 200) {
+          this.getBooks();
+          this.$swal.fire({
+            title: "Éxito",
+            text: "Acción realizada",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          });
+        }
+        this.$bvModal.hide("update");
+      } catch (error) {
+        throw error;
+      }
     },
     onSlideStart(slide) {
       this.sliding = true;
@@ -299,7 +403,7 @@ export default Vue.extend({
       try {
         this.isLoading = true;
         const response = await Axios.get(
-            `http://localhost:8080/api/books/?sort=id,desc`
+          `http://localhost:8080/api/books/?sort=id,desc`
         );
         this.totalRows = response.data.totalElements;
         this.books = response.data.content;
@@ -311,16 +415,22 @@ export default Vue.extend({
     },
     async saveBook() {
       try {
-
         const response = await Axios.post(
-            "http://localhost:8080/api/books/",
-            this.book
+          "http://localhost:8080/api/books/",
+          this.book
         );
         console.log(response);
-        if (response) {
-          this.$bvModal.hide("save");
+        if (response.status === 200) {
           this.getBooks();
+          this.book = {
+            author: "",
+            name: "",
+            atPublish: "",
+            cover: null,
+          };
+          this.previewImage = null;
         }
+        this.$bvModal.hide("save");
       } catch (error) {
         throw error;
       }
@@ -330,7 +440,7 @@ export default Vue.extend({
       try {
         this.isLoading = true;
         const response = await Axios.get(
-            `http://localhost:8080/api/books/order-by-publish-date/`
+          `http://localhost:8080/api/books/order-by-publish-date/`
         );
         this.totalRows = response.data.totalElements;
         this.books = response.data.content;
@@ -344,7 +454,7 @@ export default Vue.extend({
       try {
         this.isLoading = true;
         const response = await Axios.get(
-            `http://localhost:8080/api/books/order-by-author/`
+          `http://localhost:8080/api/books/order-by-author/`
         );
         this.totalRows = response.data.totalElements;
         this.books = response.data.content;
@@ -358,7 +468,7 @@ export default Vue.extend({
       try {
         this.isLoading = true;
         const response = await Axios.get(
-            `http://localhost:8080/api/books/has-cover/`
+          `http://localhost:8080/api/books/has-cover/`
         );
         this.totalRows = response.data.totalElements;
         this.books = response.data.content;
@@ -407,7 +517,7 @@ export default Vue.extend({
         window.pageYOffset || document.documentElement.scrollTop;
       if (Math.abs(currentScrollPosition) > 5 && this.books.length > 0) {
         this.showElement = false;
-      } else if (Math.abs(currentScrollPosition) < 50) {
+      } else if (Math.abs(currentScrollPosition) < 5) {
         this.showElement = true;
       }
     },
@@ -421,7 +531,6 @@ export default Vue.extend({
       }
       this.convertFileToBase64(file);
     },
-
 
     convertFileToBase64(file) {
       const reader = new FileReader(); // Crea un lector de archivos
@@ -441,9 +550,21 @@ export default Vue.extend({
         const images = this.books.filter((book) => book.cover !== null).map((book) => book.cover);
         this.imageCarrusel = images;
       }
-    }
+    },
 
+    convertFileToBase64Update(event) {
+      const file = event.target.files[0];
 
+      const reader = new FileReader(); // Crea un lector de archivos
+
+      reader.readAsDataURL(file); // Lee el archivo como base64
+
+      reader.onload = () => {
+        const base64String = reader.result; // Obtiene el resultado como cadena base64
+        this.selectedBook.cover = base64String; // Muestra la cadena base64 en la consola
+        // Aquí puedes realizar otras acciones con la cadena base64
+      };
+    },
   },
   async mounted() {
     await this.getBooks();
