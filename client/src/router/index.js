@@ -10,6 +10,10 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      redirect: "/books"
+    },
+    {
+      path: '/',
       name: 'home',
       component: HomeView
     },
@@ -20,7 +24,12 @@ const router = new VueRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
-    }
+    },
+    {
+      path: "/books",
+      name: "books",
+      component: () => import("../views/Books.vue")
+    },
   ]
 })
 
