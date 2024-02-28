@@ -26,7 +26,6 @@ public class BookDto {
     @NotNull(groups = {save.class, update.class})
     private LocalDate atPublish;
 
-    @NotNull(groups = {save.class, update.class})
     private String cover;
 
     private Boolean status = true;
