@@ -91,31 +91,37 @@
             class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
             v-if="books.length != 0"
           >
-            <b-col
-              v-for="book in books"
-              :key="book.id"
-              class="my-2"
-              cols="12"
-              sm="12"
-              md="4"
+            <TransitionGroup
+              name="backDown"
+              tag="div"
+              class="d-flex flex-row flex-wrap"
             >
-              <b-card
-                :title="book.name"
-                :img-src="book.cover"
-                img-alt="Image"
-                img-top
-                tag="article"
-                style="max-width: 20rem"
-                class="mb-2"
+              <b-col
+                v-for="book in books"
+                :key="book.id"
+                class="my-2"
+                cols="12"
+                sm="12"
+                md="4"
               >
-                <b-card-text>
-                  <!-- <p>Libro: {{ book.name }}</p> -->
-                  <p>Autor: {{ book.author }}</p>
-                  <p>Fecha de publicación: {{ book.atPublish }}</p>
-                  <p>Estatus: {{ book.status ? "Activo" : "Inactivo" }}</p>
-                </b-card-text>
-              </b-card>
-            </b-col>
+                <b-card
+                  :title="book.name"
+                  :img-src="book.cover"
+                  img-alt="Image"
+                  img-top
+                  tag="article"
+                  style="max-width: 20rem"
+                  class="mb-2"
+                >
+                  <b-card-text>
+                    <!-- <p>Libro: {{ book.name }}</p> -->
+                    <p>Autor: {{ book.author }}</p>
+                    <p>Fecha de publicación: {{ book.atPublish }}</p>
+                    <p>Estatus: {{ book.status ? "Activo" : "Inactivo" }}</p>
+                  </b-card-text>
+                </b-card>
+              </b-col>
+            </TransitionGroup>
           </b-row>
         </b-col>
         <b-col cols="12" sm="12" md="2">
@@ -150,6 +156,7 @@
                 id="input-1"
                 type="text"
                 placeholder="Ingresa el nombre del libro"
+                v-model="book.name"
                 required
               />
             </b-form-group>
@@ -162,6 +169,7 @@
                 id="input-1"
                 type="text"
                 placeholder="Ingresa el nombre del autor"
+                v-model="book.author"
                 required
               />
             </b-form-group>
@@ -176,6 +184,7 @@
                 id="input-1"
                 type="text"
                 placeholder="Ingresa la fecha de publicación"
+                v-model="book.atPublish"
                 required
               />
             </b-form-group>
@@ -188,6 +197,7 @@
                 id="input-1"
                 type="text"
                 placeholder="Ingresa el link de la imagen"
+                v-model="book.cover"
                 required
               />
             </b-form-group>
@@ -195,7 +205,7 @@
         </b-col>
       </b-row>
       <div class="col-12 mt-3 px-0 text-right">
-        <b-button variant="success"> Guardar </b-button>
+        <b-button variant="success" @click="saveBook"> Guardar </b-button>
       </div>
     </b-modal>
   </div>
@@ -217,12 +227,12 @@ export default Vue.extend({
         page: 0,
         size: 4,
       },
-      book:{
+      book: {
         author: "",
         name: "",
         atPublish: "",
         cover: "",
-      }
+      },
     };
   },
   methods: {
@@ -235,13 +245,28 @@ export default Vue.extend({
     async getBooks() {
       try {
         this.isLoading = true;
-        const response = await Axios.get(`http://localhost:8080/api/books/`);
+        const response = await Axios.get(`http://localhost:8080/api/books/?sort=id,desc`);
         this.totalRows = response.data.totalElements;
         this.books = response.data.content;
       } catch (error) {
         throw error;
       } finally {
         this.isLoading = false;
+      }
+    },
+    async saveBook() {
+      try {
+        const response = await Axios.post(
+          "http://localhost:8080/api/books/",
+          this.book
+        );
+        console.log(response);
+        if (response) {
+          this.$bvModal.hide("save");
+          this.getBooks()
+        }
+      } catch (error) {
+        throw error;
       }
     },
   },
