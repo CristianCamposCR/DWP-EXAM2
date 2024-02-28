@@ -1,0 +1,113 @@
+### getAll
+GET http://localhost:8080/api/books/
+
+### getAll
+GET http://localhost:8080/api/books/?sort=id&direction=asc&page=1&size=1
+
+### RESPONSE
+#{
+#  "content": [
+#    {
+#      "id": 2,
+#      "name": "Hunger games",
+#      "atPublish": "2010-09-14",
+#      "cover": "https://cdn-icons-png.flaticon.com/512/2436/2436702.png",
+#      "author": "Suzanne Collins",
+#      "status": true
+#    }
+#  ],
+#  "pageable": {
+#    "pageNumber": 1,
+#    "pageSize": 1,
+#    "sort": {
+#      "empty": false,
+#      "sorted": true,
+#      "unsorted": false
+#    },
+#    "offset": 1,
+#    "paged": true,
+#    "unpaged": false
+#  },
+#  "last": false,
+#  "totalElements": 5,
+#  "totalPages": 5,
+#  "size": 1,
+#  "number": 1,
+#  "sort": {
+#    "empty": false,
+#    "sorted": true,
+#    "unsorted": false
+#  },
+#  "numberOfElements": 1,
+#  "first": false,
+#  "empty": false
+#}
+
+### save category
+POST http://localhost:8080/api/books/
+content-type: application/json
+
+{
+  "name": "Hunger games",
+  "author": "Suzanne Collins",
+  "atPublish": "2010-09-14T00:00:00.000Z",
+  "cover": "https://cdn-icons-png.flaticon.com/512/2436/2436702.png"
+}
+
+### RESPONSE
+#{
+#  "id": 5,
+#  "name": "Hunger games",
+#  "atPublish": "2010-09-14",
+#  "cover": "https://cdn-icons-png.flaticon.com/512/2436/2436702.png",
+#  "author": "Suzanne Collins",
+#  "status": true
+#}
+
+### update
+PUT http://localhost:8080/api/books/update/
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hunger games edited",
+  "author": "Suzanne Collins edited",
+  "atPublish": "2010-09-14T00:00:00.000Z",
+  "cover": "https://cdn-icons-png.flaticon.com/512/2436/2436702.png"
+}
+### RESPONSE
+#{
+#  "id": 1,
+#  "name": "Hunger games edited",
+#  "atPublish": "2010-09-14",
+#  "cover": "https://cdn-icons-png.flaticon.com/512/2436/2436702.png",
+#  "author": "Suzanne Collins edited",
+#  "status": true
+#}
+
+### disable
+PATCH http://localhost:8080/api/books/change-status/
+Content-Type: application/json
+
+{
+  "id": 1
+}
+### RESPONSE
+#{
+#  "id": 1,
+#  "name": "Hunger games edited",
+#  "atPublish": "2010-09-14",
+#  "cover": "https://cdn-icons-png.flaticon.com/512/2436/2436702.png",
+#  "author": "Suzanne Collins edited",
+#  "status": true
+#}
+
+
+
+
+
+
+
+
+
+
