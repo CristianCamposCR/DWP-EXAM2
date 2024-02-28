@@ -203,7 +203,7 @@
               <b-form-input
                 id="input-1"
                 type="text"
-                placeholder="Ingresa la fecha de publicación"
+                placeholder="Ingresa la fecha de publicación (aaaa-mm-dd)"
                 v-model="book.atPublish"
                 required
               />
@@ -282,7 +282,7 @@
               <b-form-input
                 id="input-1"
                 type="text"
-                placeholder="Ingresa la fecha de publicación"
+                placeholder="Ingresa la fecha de publicación (aaaa-mm-dd)"
                 v-model="selectedBook.atPublish"
                 required
               />
