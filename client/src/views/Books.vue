@@ -77,13 +77,19 @@
         <b-col cols="12" sm="12" md="10">
           <b-row class="mt-3 text-center">
             <b-col cols="12" sm="12" md="4">
-              <b-button>Ordenar por autor</b-button>
+              <b-button @click="getBooksOrderByAuthorDesc"
+                >Ordenar por autor</b-button
+              >
             </b-col>
             <b-col cols="12" sm="12" md="4">
-              <b-button>Ordenar por fecha</b-button>
+              <b-button @click="getBooksOrderByDateDesc"
+                >Ordenar por fecha</b-button
+              >
             </b-col>
             <b-col cols="12" sm="12" md="4">
-              <b-button>Mostrar si tiene imagen</b-button>
+              <b-button @click="getBooksHasCover"
+                >Mostrar si tiene imagen</b-button
+              >
             </b-col>
           </b-row>
           <b-row
@@ -245,7 +251,9 @@ export default Vue.extend({
     async getBooks() {
       try {
         this.isLoading = true;
-        const response = await Axios.get(`http://localhost:8080/api/books/?sort=id,desc`);
+        const response = await Axios.get(
+          `http://localhost:8080/api/books/?sort=id,desc`
+        );
         this.totalRows = response.data.totalElements;
         this.books = response.data.content;
       } catch (error) {
@@ -263,10 +271,53 @@ export default Vue.extend({
         console.log(response);
         if (response) {
           this.$bvModal.hide("save");
-          this.getBooks()
+          this.getBooks();
         }
       } catch (error) {
         throw error;
+      }
+    },
+
+    async getBooksOrderByDateDesc() {
+      try {
+        this.isLoading = true;
+        const response = await Axios.get(
+          `http://localhost:8080/api/books/order-by-publish-date/`
+        );
+        this.totalRows = response.data.totalElements;
+        this.books = response.data.content;
+      } catch (error) {
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getBooksOrderByAuthorDesc() {
+      try {
+        this.isLoading = true;
+        const response = await Axios.get(
+          `http://localhost:8080/api/books/order-by-author/`
+        );
+        this.totalRows = response.data.totalElements;
+        this.books = response.data.content;
+      } catch (error) {
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getBooksHasCover() {
+      try {
+        this.isLoading = true;
+        const response = await Axios.get(
+          `http://localhost:8080/api/books/has-cover/`
+        );
+        this.totalRows = response.data.totalElements;
+        this.books = response.data.content;
+      } catch (error) {
+        throw error;
+      } finally {
+        this.isLoading = false;
       }
     },
   },

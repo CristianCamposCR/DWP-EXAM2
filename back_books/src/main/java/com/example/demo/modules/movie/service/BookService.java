@@ -2,7 +2,6 @@ package com.example.demo.modules.movie.service;
 
 import com.example.demo.modules.movie.model.BookRepository;
 import com.example.demo.modules.movie.model.Book;
-import com.example.demo.modules.movie.model.dto.BookDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -49,5 +48,20 @@ public class BookService {
         return this.IBookRepository.findById(id);
     }
 
+
+    @Transactional(readOnly = true)
+    public Page<Book> findAllByOrderAtPublishDesc(Pageable pageable){
+        return this.IBookRepository.findAllByOrderByAtPublishDesc(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Book> findAllByOrderAuthorDesc(Pageable pageable){
+        return this.IBookRepository.findAllByOrderByAuthorDesc(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Book> findAllByCoverIsNotEmpty(Pageable pageable){
+        return this.IBookRepository.findAllByCoverIsNotNull(pageable);
+    }
 
 }
