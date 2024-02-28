@@ -2,6 +2,8 @@ import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VueSweetalert2 from 'vue-sweetalert2';
 import '@asika32764/vue-animate/dist/vue-animate.css'
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)

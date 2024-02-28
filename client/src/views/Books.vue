@@ -8,7 +8,8 @@
     <h3 class="text-center mt-3">Libros</h3>
 
     <b-container fluid>
-      <b-row class="d-flex justify-content-center">
+     <div  v-show="showElement">
+        <b-row class="d-flex justify-content-center">
         <b-col cols="12" sm="12" md="8">
           <div>
             <b-carousel
@@ -73,6 +74,7 @@
           </div>
         </b-col>
       </b-row>
+     </div>
       <b-row class="mt-5">
         <b-col cols="12" sm="12" md="10">
           <b-row class="mt-3 text-center">
@@ -118,6 +120,10 @@
                   tag="article"
                   style="max-width: 20rem"
                   class="mb-2"
+                  @dragover.prevent
+                  @dragenter.prevent
+                  @dragstart="startDrag($event, book)"
+                  draggable="true"
                 >
                   <b-card-text>
                     <!-- <p>Libro: {{ book.name }}</p> -->
@@ -144,6 +150,9 @@
             </b-col>
             <b-col cols="12" sm="12" class="mb-2">
               <b-button
+                @drop="onDrop($event)"
+                @dragover.prevent
+                @dragenter.prevent
                 ><b-icon icon="trash-fill" aria-hidden="true"></b-icon
               ></b-button>
             </b-col>
@@ -239,9 +248,19 @@ export default Vue.extend({
         atPublish: "",
         cover: "",
       },
+      showElement: true,
     };
   },
   methods: {
+    startDrag(evt, book) {
+      evt.dataTransfer.dropEffect = "move";
+      evt.dataTransfer.effectAllowed = "move";
+      evt.dataTransfer.setData("book", book.id);
+    },
+    onDrop(evt) {
+      const book = evt.dataTransfer.getData("book");
+      this.changeStatus(book);
+    },
     onSlideStart(slide) {
       this.sliding = true;
     },
@@ -320,9 +339,56 @@ export default Vue.extend({
         this.isLoading = false;
       }
     },
+    async changeStatus(id) {
+      try {
+        this.$swal
+          .fire({
+            title: "Cuidado",
+            text: "¿Seguro que desea realizar la acción?",
+            icon: "question",
+            confirmButtonText: "Aceptar",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+          })
+          .then(async (result) => {
+            if (result.isConfirmed) {
+              const response = await Axios.patch(
+                "http://localhost:8080/api/books/change-status/",
+                { id: id }
+              );
+              console.log("changeStatus", response);
+              if (response.status === 200) {
+                this.getBooks();
+                this.$swal.fire({
+                  title: "Éxito",
+                  text: "Acción realizada",
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                });
+              }
+            }
+          });
+      } catch (error) {
+        throw error;
+      }
+    },
+    onScroll() {
+      // Obtiene la posición actual del scroll
+      const currentScrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
+      if (Math.abs(currentScrollPosition) > 50) {
+        this.showElement = false;
+      } else if (Math.abs(currentScrollPosition) < 50) {
+        this.showElement = true;
+      }
+    },
   },
   mounted() {
     this.getBooks();
+    window.addEventListener("scroll", this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
   },
 });
 </script>
