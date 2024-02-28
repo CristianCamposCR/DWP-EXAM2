@@ -26,40 +26,23 @@
                 @sliding-end="onSlideEnd"
             >
               <!-- Text slides with image -->
+
+            <div       v-if="imageCarrusel.length > 0"
+                       v-for="(image, index) in imageCarrusel"
+                        :key="index"
+            >
               <b-carousel-slide
-                  caption="First slide"
-                  text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                  img-src="https://picsum.photos/1024/480/?image=52"
+                  :img-src="image"
+                  img-height="200"
               ></b-carousel-slide>
+            </div>
 
-              <!-- Slides with custom text -->
-              <b-carousel-slide
-                  img-src="https://picsum.photos/1024/480/?image=54"
-              >
-                <h1>Hello world!</h1>
-              </b-carousel-slide>
 
-              <!-- Slides with image only -->
-              <b-carousel-slide
-                  img-src="https://picsum.photos/1024/480/?image=58"
-              ></b-carousel-slide>
 
-              <!-- Slides with img slot -->
-              <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-              <b-carousel-slide>
-                <template #img>
-                  <img
-                      class="d-block img-fluid w-100"
-                      width="1024"
-                      height="480"
-                      src="https://picsum.photos/1024/480/?image=55"
-                      alt="image slot"
-                  />
-                </template>
-              </b-carousel-slide>
 
               <!-- Slide with blank fluid image to maintain slide aspect ratio -->
               <b-carousel-slide
+                  v-else
                   caption="Blank Image"
                   img-blank
                   img-alt="Blank image"
@@ -97,10 +80,13 @@
               >
             </b-col>
           </b-row>
+
+
+
           <b-row
               cols="12"
               class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
-              v-if="books.length != 0"
+              v-if="books.length !== 0"
           >
             <TransitionGroup
                 name="backDown"
@@ -138,6 +124,20 @@
               </b-col>
             </TransitionGroup>
           </b-row>
+
+
+          <b-row
+              cols="12"
+              class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
+              v-else
+          >
+          <b-col cols="12" sm="12" md="12">
+            <h3 class="text-center">No hay registros</h3>
+          </b-col>
+
+          </b-row>
+
+
         </b-col>
         <b-col cols="12" sm="12" md="2">
           <b-row class="text-center">
@@ -258,6 +258,7 @@ import Axios from "axios";
 export default Vue.extend({
   data() {
     return {
+      imageCarrusel: [],
       previewImage: null,
       slide: 0,
       sliding: null,
@@ -404,7 +405,7 @@ export default Vue.extend({
       // Obtiene la posición actual del scroll
       const currentScrollPosition =
         window.pageYOffset || document.documentElement.scrollTop;
-      if (Math.abs(currentScrollPosition) > 50) {
+      if (Math.abs(currentScrollPosition) > 5 && this.books.length > 0) {
         this.showElement = false;
       } else if (Math.abs(currentScrollPosition) < 50) {
         this.showElement = true;
@@ -432,16 +433,31 @@ export default Vue.extend({
         this.book.cover = base64String; // Muestra la cadena base64 en la consola
         // Aquí puedes realizar otras acciones con la cadena base64
       };
+    },
+
+
+    handleImageBooks(){
+      if (this.books.length > 0) {
+        const images = this.books.filter((book) => book.cover !== null).map((book) => book.cover);
+        this.imageCarrusel = images;
+      }
     }
 
 
   },
-  mounted() {
-    this.getBooks();
+  async mounted() {
+    await this.getBooks();
+    this.handleImageBooks();
+
     window.addEventListener("scroll", this.onScroll);
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll);
+  },
+  watch: {
+    books() {
+      this.handleImageBooks();
+    },
   },
 });
 </script>

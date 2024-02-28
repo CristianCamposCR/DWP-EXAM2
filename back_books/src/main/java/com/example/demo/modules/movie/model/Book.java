@@ -27,7 +27,7 @@ public class Book {
     @Column(columnDefinition = "TIMESTAMP DEFAULT now()", nullable = true)
     private LocalDate atPublish;
 
-    @Column(columnDefinition = "LONGTEXT", nullable = false)
+    @Column(columnDefinition = "LONGTEXT", nullable = true)
     private String cover;
 
     @Column(columnDefinition = "VARCHAR(100)", nullable = false)
