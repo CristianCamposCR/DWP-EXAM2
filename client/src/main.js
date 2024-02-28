@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import VueSweetalert2 from 'vue-sweetalert2';
+import '@asika32764/vue-animate/dist/vue-animate.css'
+
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -9,6 +12,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
+Vue.use(VueSweetalert2);
+
 
 import App from './App.vue'
 import router from './router'

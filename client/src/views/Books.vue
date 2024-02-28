@@ -88,13 +88,20 @@
           </b-row>
           <b-row
             cols="12"
-            class="align-items-stretch d-flex justify-content-center mt-5 ms-5"
-            v-if="movies.length != 0"
+            class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
+            v-if="books.length != 0"
           >
-            <b-col v-for="movie in movies" :key="movie.id" class="my-2" cols="12" sm="12" md="4">
+            <b-col
+              v-for="book in books"
+              :key="book.id"
+              class="my-2"
+              cols="12"
+              sm="12"
+              md="4"
+            >
               <b-card
-                title="Card Title"
-                img-src="https://picsum.photos/600/300/?image=25"
+                :title="book.name"
+                :img-src="book.cover"
                 img-alt="Image"
                 img-top
                 tag="article"
@@ -102,11 +109,11 @@
                 class="mb-2"
               >
                 <b-card-text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  <!-- <p>Libro: {{ book.name }}</p> -->
+                  <p>Autor: {{ book.author }}</p>
+                  <p>Fecha de publicación: {{ book.atPublish }}</p>
+                  <p>Estatus: {{ book.status ? "Activo" : "Inactivo" }}</p>
                 </b-card-text>
-
-                <b-button href="#" variant="primary">Go somewhere</b-button>
               </b-card>
             </b-col>
           </b-row>
@@ -114,7 +121,7 @@
         <b-col cols="12" sm="12" md="2">
           <b-row class="text-center">
             <b-col cols="12" sm="12" class="mb-2">
-              <b-button
+              <b-button v-b-modal.save
                 ><b-icon icon="plus" aria-hidden="true"></b-icon
               ></b-button>
             </b-col>
@@ -132,30 +139,90 @@
         </b-col>
       </b-row>
     </b-container>
+
+    <!-- modal -->
+    <b-modal id="save" title="Registrar libro" size="lg" hide-footer>
+      <b-row>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el nombre del libro"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el nombre del autor"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa la fecha de publicación"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+        <b-col cols="12" sm="12" md="6">
+          <b-form>
+            <b-form-group>
+              <b-form-input
+                id="input-1"
+                type="text"
+                placeholder="Ingresa el link de la imagen"
+                required
+              />
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
+      <div class="col-12 mt-3 px-0 text-right">
+        <b-button variant="success"> Guardar </b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
 import Vue from "vue";
+import Axios from "axios";
 
 export default Vue.extend({
   data() {
     return {
       slide: 0,
       sliding: null,
-      movies: [
-        { name: "hola" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-        { name: "adios" },
-      ],
+      books: [],
+      pageable: {
+        currentPage: 1,
+        sort: "id",
+        direction: "asc",
+        page: 0,
+        size: 4,
+      },
+      book:{
+        author: "",
+        name: "",
+        atPublish: "",
+        cover: "",
+      }
     };
   },
   methods: {
@@ -165,6 +232,21 @@ export default Vue.extend({
     onSlideEnd(slide) {
       this.sliding = false;
     },
+    async getBooks() {
+      try {
+        this.isLoading = true;
+        const response = await Axios.get(`http://localhost:8080/api/books/`);
+        this.totalRows = response.data.totalElements;
+        this.books = response.data.content;
+      } catch (error) {
+        throw error;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+  },
+  mounted() {
+    this.getBooks();
   },
 });
 </script>
