@@ -36,15 +36,4 @@ public class BookDto {
 
     public interface update { };
     public interface changeStatus { };
-    public interface getByTitle { };
-
-    public interface getByDirectorName { };
-
-    public interface getByDates { };
-
-    public interface getByCategory { };
-
-    public interface getByDate { };
-
-
 }

@@ -102,9 +102,14 @@ Content-Type: application/json
 #  "status": true
 #}
 
+### orderByAtPublish
+GET http://localhost:8080/api/books/order-by-publish-date/
 
+### OrderByAuthor
+GET http://localhost:8080/api/books/order-by-author/
 
-
+### hasCover
+GET http://localhost:8080/api/books/has-cover/
 
 
 

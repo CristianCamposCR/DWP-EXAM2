@@ -1,7 +1,6 @@
 package com.example.demo.modules.movie.controller;
 
 import com.example.demo.modules.movie.model.Book;
-import com.example.demo.modules.movie.model.BookRepository;
 import com.example.demo.modules.movie.model.dto.BookDto;
 import com.example.demo.modules.movie.service.BookService;
 import lombok.AllArgsConstructor;
@@ -52,6 +51,22 @@ public class BookController {
         paylaod.setId(Movie.getId());
         return this.bookService.changeStatus(paylaod);
     }
+
+    @GetMapping("/order-by-publish-date/")
+    public Page<Book> findAllByOrderAtPublishDesc(Pageable pageable) {
+        return this.bookService.findAllByOrderAtPublishDesc(pageable);
+    }
+
+    @GetMapping("/order-by-author/")
+    public Page<Book> findAllByOrderAuthorDesc(Pageable pageable) {
+        return this.bookService.findAllByOrderAuthorDesc(pageable);
+    }
+
+    @GetMapping("/has-cover/")
+    public Page<Book> findAllByCoverIsNotEmpty(Pageable pageable) {
+        return this.bookService.findAllByCoverIsNotEmpty(pageable);
+    }
+
 
 
 }
