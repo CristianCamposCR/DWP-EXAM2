@@ -24,24 +24,22 @@
                 style="text-shadow: 1px 1px 2px #333"
                 @sliding-start="onSlideStart"
                 @sliding-end="onSlideEnd"
-            >
-              <!-- Text slides with image -->
+              >
+                <!-- Text slides with image -->
 
-            <div       v-if="imageCarrusel.length > 0"
-                       v-for="(image, index) in imageCarrusel"
-                        :key="index"
-            >
-              <b-carousel-slide
-                  :img-src="image"
-                  img-height="200"
-              ></b-carousel-slide>
-            </div>
+                <div
+                  v-if="imageCarrusel.length > 0"
+                  v-for="(image, index) in imageCarrusel"
+                  :key="index"
+                >
+                  <b-carousel-slide
+                    :img-src="image"
+                    img-height="200"
+                  ></b-carousel-slide>
+                </div>
 
-
-
-
-              <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-              <b-carousel-slide
+                <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+                <b-carousel-slide
                   v-else
                   caption="Blank Image"
                   img-blank
@@ -77,8 +75,6 @@
               </b-button>
             </b-col>
           </b-row>
-
-
 
           <b-row
             cols="12"
@@ -122,19 +118,15 @@
             </TransitionGroup>
           </b-row>
 
-
           <b-row
-              cols="12"
-              class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
-              v-else
+            cols="12"
+            class="align-items-stretch d-flex justify-content-center mt-5 ml-5"
+            v-else
           >
-          <b-col cols="12" sm="12" md="12">
-            <h3 class="text-center">No hay registros</h3>
-          </b-col>
-
+            <b-col cols="12" sm="12" md="12">
+              <h3 class="text-center">No hay registros</h3>
+            </b-col>
           </b-row>
-
-
         </b-col>
         <b-col cols="12" sm="12" md="2">
           <b-row class="text-center">
@@ -200,13 +192,11 @@
         <b-col cols="12" sm="12" md="6">
           <b-form>
             <b-form-group>
-              <b-form-input
-                id="input-1"
-                type="text"
-                placeholder="Ingresa la fecha de publicación (aaaa-mm-dd)"
+              <b-form-datepicker
+                id="example-datepicker"
                 v-model="book.atPublish"
-                required
-              />
+                class="mb-2"
+              ></b-form-datepicker>
             </b-form-group>
           </b-form>
         </b-col>
@@ -279,13 +269,12 @@
         <b-col cols="12" sm="12" md="6">
           <b-form>
             <b-form-group>
-              <b-form-input
-                id="input-1"
-                type="text"
-                placeholder="Ingresa la fecha de publicación (aaaa-mm-dd)"
+              <b-form-datepicker
+                id="example-datepicker"
                 v-model="selectedBook.atPublish"
-                required
-              />
+                class="mb-2"
+                locale="en-US"
+              ></b-form-datepicker>
             </b-form-group>
           </b-form>
         </b-col>
@@ -544,10 +533,11 @@ export default Vue.extend({
       };
     },
 
-
-    handleImageBooks(){
+    handleImageBooks() {
       if (this.books.length > 0) {
-        const images = this.books.filter((book) => book.cover !== null).map((book) => book.cover);
+        const images = this.books
+          .filter((book) => book.cover !== null)
+          .map((book) => book.cover);
         this.imageCarrusel = images;
       }
     },
